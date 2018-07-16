@@ -1,0 +1,19 @@
+{
+  "name": "quokky",
+  "version": "0.0.1",
+  "description": "autodeploy tool",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/octav47/quokky.git"
+  },
+  "author": "Kir Tribunsky",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/octav47/quokky/issues"
+  },
+  "homepage": "https://github.com/octav47/quokky#readme"
+}

@@ -9,49 +9,27 @@ var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _https = require('https');
+var _shelljs = require('shelljs');
 
-var _https2 = _interopRequireDefault(_https);
-
-var _extractZip = require('./extract-zip');
+var _shelljs2 = _interopRequireDefault(_shelljs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var downloadArchive = function downloadArchive(url) {
-    _fs2.default.mkdtemp('./', function (err, tempFolder) {
-        if (err) {
-            throw err;
-        }
+var downloadArchive = function downloadArchive(_ref) {
+    var name = _ref.name,
+        git = _ref.git;
+    var url = git.url,
+        branch = git.branch;
 
-        console.log('Temp folder: ' + tempFolder);
 
-        var fileName = tempFolder + '/archive.zip';
+    _shelljs2.default.echo('downloading...');
 
-        _fs2.default.writeFile(fileName, '', function (err) {
-            if (err) {
-                throw err;
-            }
+    _shelljs2.default.mkdir(name);
+    _shelljs2.default.cd(name);
+    _shelljs2.default.exec('git clone ' + url + ' .');
+    _shelljs2.default.exec('git checkout ' + branch);
 
-            var file = _fs2.default.createWriteStream(fileName);
-            var request = _https2.default.get(url, function (response) {
-                response.pipe(file);
-
-                (0, _extractZip.extractZip)(fileName, function (error) {
-                    if (error) {
-                        throw error;
-                    }
-                });
-
-                // fs.rmdir(tempFolder, err => {
-                //     if (err) {
-                //         throw err
-                //     }
-                //
-                //     console.log('done!')
-                // })
-            });
-        });
-    });
+    _shelljs2.default.echo('...done!');
 };
 
 exports.downloadArchive = downloadArchive;

@@ -1,9 +1,5 @@
 const fs = require('fs')
 
-const createConfig = () => {
-
-}
-
 const createEmptyConfig = name => {
     if (!name) {
         throw 'name is not defined'
@@ -11,7 +7,10 @@ const createEmptyConfig = name => {
 
     const config = {
         name,
-        zip: '',
+        git: {
+            url: '',
+            branch: '',
+        },
         ftp: {
             host: '',
             port: '',

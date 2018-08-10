@@ -2,8 +2,6 @@
 
 var fs = require('fs');
 
-var createConfig = function createConfig() {};
-
 var createEmptyConfig = function createEmptyConfig(name) {
     if (!name) {
         throw 'name is not defined';
@@ -11,7 +9,10 @@ var createEmptyConfig = function createEmptyConfig(name) {
 
     var config = {
         name: name,
-        zip: '',
+        git: {
+            url: '',
+            branch: ''
+        },
         ftp: {
             host: '',
             port: '',

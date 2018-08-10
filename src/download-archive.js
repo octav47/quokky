@@ -1,42 +1,17 @@
 import fs from 'fs'
-import http from 'https'
-import { extractZip } from './extract-zip'
+import shell from 'shelljs'
 
-const downloadArchive = url => {
-    fs.mkdtemp('./', (err, tempFolder) => {
-        if (err) {
-            throw err
-        }
+const downloadArchive = ({ name, git }) => {
+    const { url, branch } = git
 
-        console.log('Temp folder: ' + tempFolder)
+    shell.echo('downloading...')
 
-        const fileName = tempFolder + '/archive.zip'
+    shell.mkdir(name)
+    shell.cd(name)
+    shell.exec(`git clone ${url} .`)
+    shell.exec(`git checkout ${branch}`)
 
-        fs.writeFile(fileName, '', err => {
-            if (err) {
-                throw err
-            }
-
-            const file = fs.createWriteStream(fileName)
-            const request = http.get(url, response => {
-                response.pipe(file)
-
-                extractZip(fileName, error => {
-                    if (error) {
-                        throw error
-                    }
-                })
-
-                // fs.rmdir(tempFolder, err => {
-                //     if (err) {
-                //         throw err
-                //     }
-                //
-                //     console.log('done!')
-                // })
-            })
-        })
-    })
+    shell.echo('...done!')
 }
 
 export {
